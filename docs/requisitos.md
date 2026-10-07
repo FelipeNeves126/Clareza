@@ -1,6 +1,6 @@
 # Clareza — Documento de Requisitos
 
-**Versão:** 1.1
+**Versão:** 1.2
 **Projeto:** Clareza
 **Tipo:** Projeto de estudo e portfólio
 
@@ -10,19 +10,30 @@
 
 O **Clareza** é um sistema web de controle financeiro pessoal e familiar.
 
-O sistema permitirá que usuários registrem manualmente suas movimentações financeiras, como:
+O sistema permitirá que usuários registrem e acompanhem suas movimentações financeiras, como:
 
 * Entradas;
 * Despesas;
 * Investimentos.
 
-A aplicação também permitirá visualizar essas informações por meio de dashboards, tabelas e gráficos.
+As informações poderão ser visualizadas por meio de:
 
-Além do controle individual, usuários poderão participar de uma **família financeira**, permitindo uma visão agregada da situação financeira do grupo.
+* Dashboards;
+* Tabelas;
+* Gráficos;
+* Indicadores financeiros;
+* Projeções de gastos.
 
-O sistema também terá um indicador chamado **Saúde da Família**, responsável por analisar o comportamento financeiro da família ao longo do tempo e apresentar uma interpretação da situação financeira atual.
+Além do controle individual, os usuários poderão participar de uma **família financeira**, permitindo uma visão agregada da situação financeira do grupo.
 
-A primeira versão será desenvolvida com foco em aprendizado e portfólio, sem integrações bancárias automáticas ou recursos de inteligência artificial.
+O sistema também possuirá dois indicadores de saúde financeira:
+
+* **Saúde Financeira do Usuário**;
+* **Saúde Financeira da Família**.
+
+Esses indicadores analisarão o comportamento financeiro ao longo do tempo e apresentarão uma interpretação da situação atual.
+
+A primeira versão será desenvolvida com foco em aprendizado e portfólio, sem integrações bancárias automáticas ou inteligência artificial.
 
 ---
 
@@ -34,11 +45,22 @@ O objetivo do Clareza é permitir que uma pessoa consiga:
 * Registrar suas despesas;
 * Registrar seus investimentos;
 * Organizar suas movimentações por categorias;
+* Registrar compras à vista;
+* Registrar compras no cartão;
+* Registrar compras parceladas;
+* Registrar despesas recorrentes;
+* Acompanhar parcelas futuras;
 * Visualizar sua situação financeira;
-* Acompanhar sua evolução financeira ao longo do tempo;
+* Acompanhar sua evolução financeira;
+* Visualizar gastos de meses anteriores;
+* Acompanhar os gastos do mês atual;
+* Visualizar compromissos financeiros já conhecidos para os próximos meses;
+* Avaliar sua própria Saúde Financeira;
 * Participar de uma família financeira;
 * Acompanhar a situação financeira agregada da família;
-* Identificar possíveis problemas ou melhorias na saúde financeira familiar.
+* Avaliar a Saúde Financeira da Família.
+
+Futuramente, o sistema poderá utilizar inteligência artificial para realizar previsões mais avançadas sobre os gastos futuros.
 
 ---
 
@@ -47,9 +69,12 @@ O objetivo do Clareza é permitir que uma pessoa consiga:
 O sistema será direcionado principalmente para:
 
 * Pessoas que desejam controlar suas finanças;
-* Pessoas que desejam acompanhar investimentos manualmente;
+* Pessoas que desejam acompanhar seus investimentos manualmente;
+* Pessoas que possuem compras parceladas;
+* Pessoas que possuem despesas recorrentes;
 * Famílias que desejam acompanhar sua situação financeira em conjunto;
-* Pessoas que desejam compreender melhor seus hábitos financeiros.
+* Pessoas que desejam compreender melhor seus hábitos financeiros;
+* Pessoas que desejam identificar possíveis problemas financeiros antes que eles aconteçam.
 
 ---
 
@@ -71,14 +96,24 @@ A primeira versão do Clareza terá:
 * Cadastro de entradas;
 * Cadastro de despesas;
 * Cadastro de investimentos;
+* Cadastro de compras à vista;
+* Cadastro de compras no cartão;
+* Cadastro de compras parceladas;
+* Cadastro de despesas recorrentes;
+* Controle de parcelas ativas;
 * Categorias predefinidas;
 * Categorias personalizadas;
 * Dashboard individual;
 * Dashboard familiar;
-* Indicador de Saúde da Família;
+* Histórico financeiro;
+* Projeção de gastos futuros baseada em compromissos conhecidos;
+* Saúde Financeira do Usuário;
+* Saúde Financeira da Família;
 * Controle de permissões;
 * API REST;
 * Banco de dados MySQL.
+
+A previsão de gastos utilizando inteligência artificial ficará fora da primeira versão.
 
 ---
 
@@ -97,6 +132,15 @@ Um usuário que já pertence a uma família não poderá solicitar entrada em ou
 
 Caso saia da família, poderá posteriormente criar ou solicitar entrada em outra.
 
+Um usuário não precisa obrigatoriamente pertencer a uma família para utilizar o Clareza.
+
+O usuário poderá utilizar individualmente:
+
+* Seu controle financeiro;
+* Seu dashboard;
+* Sua Saúde Financeira;
+* Suas projeções.
+
 ---
 
 # 6. Famílias
@@ -114,7 +158,9 @@ Cada família deverá possuir:
 
 Uma família poderá existir sem possuir um chefe.
 
-Uma família também poderá existir sem membros além do usuário que a criou, dependendo das regras de criação.
+Uma família poderá existir com apenas um membro.
+
+A participação em uma família é opcional para o usuário.
 
 ---
 
@@ -141,12 +187,13 @@ O processo de entrada em uma família funcionará da seguinte forma:
 1. O usuário informa o código da família;
 2. O sistema verifica se o código existe;
 3. O sistema verifica se o usuário já pertence a uma família;
-4. O sistema cria uma solicitação de entrada;
-5. A solicitação fica com status `PENDENTE`;
-6. Um administrador da família visualiza a solicitação;
-7. O administrador pode aceitar ou rejeitar;
-8. Caso aceite, o usuário passa a fazer parte da família;
-9. Caso rejeite, o usuário não entra na família.
+4. O sistema verifica se já existe uma solicitação válida;
+5. O sistema cria uma solicitação de entrada;
+6. A solicitação fica com status `PENDENTE`;
+7. Um administrador da família visualiza a solicitação;
+8. O administrador pode aceitar ou rejeitar;
+9. Caso aceite, o usuário passa a fazer parte da família;
+10. Caso rejeite, o usuário não entra na família.
 
 A entrada nunca deverá ocorrer automaticamente apenas porque o usuário possui o código.
 
@@ -232,7 +279,9 @@ O administrador não necessariamente será o chefe da família.
 
 Também não necessariamente será o criador.
 
-Isso permite que a responsabilidade administrativa seja transferida para outro membro caso necessário.
+Ser administrador não concede automaticamente acesso aos dados financeiros individuais dos membros.
+
+A responsabilidade administrativa poderá ser transferida para outro membro autorizado.
 
 ---
 
@@ -251,7 +300,7 @@ O chefe poderá visualizar os dados financeiros individuais dos membros da próp
 
 O chefe nunca poderá visualizar dados financeiros de usuários que não pertencem à sua família.
 
-O papel de chefe não determina quem administra as solicitações de entrada.
+Ser chefe não concede automaticamente permissões administrativas.
 
 ---
 
@@ -278,9 +327,10 @@ Um usuário poderá sair da família da qual participa.
 Ao sair:
 
 * O usuário deixa de pertencer à família;
-* O usuário não terá mais acesso às informações familiares;
+* O usuário não terá mais acesso aos dados daquela família;
 * O usuário não poderá mais visualizar a Saúde da Família;
-* O usuário continuará possuindo sua própria conta.
+* O usuário continuará possuindo sua própria conta;
+* Seus dados financeiros individuais continuarão pertencendo ao seu usuário.
 
 Após sair, poderá criar uma nova família ou solicitar entrada em outra.
 
@@ -290,7 +340,7 @@ Após sair, poderá criar uma nova família ou solicitar entrada em outra.
 
 Caso um administrador deixe a família, outro administrador deverá assumir suas responsabilidades.
 
-O sistema não deverá permitir que uma família fique sem administrador caso existam solicitações ou ações administrativas pendentes.
+O sistema não deverá permitir que uma família fique sem capacidade administrativa quando existirem solicitações ou ações administrativas pendentes.
 
 A responsabilidade administrativa poderá ser transferida para outro membro autorizado.
 
@@ -352,6 +402,16 @@ Os tipos iniciais serão:
 * `DESPESA`;
 * `INVESTIMENTO`.
 
+A movimentação também poderá possuir informações específicas relacionadas a:
+
+* Forma de pagamento;
+* Parcelamento;
+* Recorrência;
+* Datas futuras;
+* Status.
+
+Essas informações deverão ser modeladas de acordo com o tipo de movimentação.
+
 ---
 
 # 20. Entradas
@@ -372,11 +432,13 @@ Uma entrada deverá possuir pelo menos:
 * Descrição;
 * Categoria.
 
+Entradas poderão ser utilizadas nos cálculos de Saúde Financeira e nos dashboards.
+
 ---
 
 # 21. Despesas
 
-Despesas representam valores gastos pelo usuário.
+Despesas representam valores gastos ou comprometidos pelo usuário.
 
 Exemplos:
 
@@ -385,7 +447,9 @@ Exemplos:
 * Transporte;
 * Saúde;
 * Educação;
-* Lazer.
+* Lazer;
+* Compras;
+* Assinaturas.
 
 Uma despesa deverá possuir pelo menos:
 
@@ -394,9 +458,199 @@ Uma despesa deverá possuir pelo menos:
 * Descrição;
 * Categoria.
 
+Uma despesa poderá ocorrer de diferentes formas, como:
+
+* Compra à vista;
+* Compra no cartão;
+* Compra parcelada;
+* Despesa recorrente.
+
 ---
 
-# 22. Investimentos
+# 22. Compras à Vista
+
+O sistema deverá permitir o registro de compras realizadas à vista.
+
+Uma compra à vista poderá utilizar diferentes formas de pagamento.
+
+Exemplos:
+
+* Dinheiro;
+* PIX;
+* Débito;
+* Outras formas que possam ser adicionadas posteriormente.
+
+A compra à vista deverá representar uma despesa realizada em uma única ocorrência.
+
+---
+
+# 23. Compras no Cartão
+
+O sistema deverá permitir o registro de compras realizadas utilizando cartão.
+
+Uma compra no cartão deverá estar associada a um cartão cadastrado pelo usuário.
+
+O sistema poderá armazenar informações como:
+
+* Cartão;
+* Valor;
+* Data da compra;
+* Descrição;
+* Categoria;
+* Forma de pagamento.
+
+O controle de cartão deverá permitir que as compras sejam utilizadas nos cálculos de gastos e compromissos futuros.
+
+---
+
+# 24. Compras Parceladas
+
+O sistema deverá permitir o registro de compras parceladas.
+
+Uma compra parcelada deverá possuir informações como:
+
+* Valor total;
+* Quantidade de parcelas;
+* Valor das parcelas;
+* Número da parcela;
+* Data da compra;
+* Datas de vencimento;
+* Cartão utilizado;
+* Categoria;
+* Status das parcelas.
+
+Exemplo:
+
+```text
+Compra:
+Notebook
+
+Valor:
+R$ 3.000
+
+Parcelas:
+10
+
+Valor por parcela:
+R$ 300
+```
+
+Cada parcela deverá representar um compromisso financeiro específico.
+
+Parcelas futuras deverão ser consideradas na projeção de gastos.
+
+---
+
+# 25. Parcelas Ativas
+
+O sistema deverá identificar parcelas que ainda possuem valores a serem pagos.
+
+Exemplo:
+
+```text
+Compra: Notebook
+10 parcelas
+
+Pagas:
+1, 2, 3
+
+Ativas:
+4, 5, 6, 7, 8, 9, 10
+```
+
+As parcelas ainda não pagas deverão ser consideradas nos compromissos financeiros futuros.
+
+O sistema deverá conseguir identificar quanto o usuário já possui comprometido para os próximos meses.
+
+---
+
+# 26. Despesas Recorrentes
+
+O sistema deverá permitir o cadastro de despesas recorrentes.
+
+Exemplos:
+
+* Aluguel;
+* Internet;
+* Academia;
+* Streaming;
+* Plano de celular;
+* Seguro;
+* Assinaturas.
+
+Uma despesa recorrente poderá possuir:
+
+* Descrição;
+* Valor;
+* Categoria;
+* Periodicidade;
+* Data inicial;
+* Data final, quando aplicável;
+* Forma de pagamento;
+* Status.
+
+A periodicidade poderá ser inicialmente mensal.
+
+Outras periodicidades poderão ser adicionadas posteriormente.
+
+---
+
+# 27. Diferença entre Parcelamento e Recorrência
+
+O sistema deverá tratar parcelamentos e recorrências como conceitos diferentes.
+
+### Parcelamento
+
+Possui uma quantidade definida de parcelas.
+
+Exemplo:
+
+```text
+Celular
+12 parcelas
+```
+
+Após a última parcela, o compromisso termina.
+
+### Recorrência
+
+Continua acontecendo enquanto estiver ativa.
+
+Exemplo:
+
+```text
+Aluguel
+Mensal
+```
+
+A recorrência poderá continuar até ser encerrada.
+
+Essa diferença deverá ser considerada na modelagem do banco e nos cálculos de projeção.
+
+---
+
+# 28. Cartões
+
+O sistema poderá permitir o cadastro de cartões utilizados pelo usuário.
+
+Um cartão poderá possuir informações como:
+
+* Identificador;
+* Nome;
+* Limite;
+* Dia de fechamento;
+* Dia de vencimento;
+* Status.
+
+As compras realizadas no cartão deverão estar associadas ao cartão correspondente.
+
+O controle de cartões será utilizado principalmente para acompanhar compras e parcelas.
+
+Funcionalidades avançadas de fatura poderão ser adicionadas posteriormente.
+
+---
+
+# 29. Investimentos
 
 Investimentos representam valores direcionados para investimentos ou reservas financeiras.
 
@@ -417,7 +671,7 @@ O investimento será considerado nas análises financeiras do usuário e da fam�
 
 ---
 
-# 23. Categorias
+# 30. Categorias
 
 O sistema possuirá categorias predefinidas.
 
@@ -442,11 +696,11 @@ Exemplos:
 * Jogos;
 * Meu negócio.
 
-As categorias personalizadas deverão estar associadas ao usuário ou a uma estrutura definida pelo sistema para evitar conflitos entre usuários.
+As categorias personalizadas deverão ser associadas ao usuário ou a uma estrutura definida pelo sistema para evitar conflitos entre usuários.
 
 ---
 
-# 24. Dashboard Individual
+# 31. Dashboard Individual
 
 Cada usuário terá acesso a um dashboard individual.
 
@@ -459,7 +713,10 @@ O dashboard poderá apresentar:
 * Gastos por categoria;
 * Evolução mensal;
 * Comparação entre entradas e despesas;
-* Capacidade de poupança/investimento.
+* Capacidade de poupança/investimento;
+* Compras parceladas;
+* Despesas recorrentes;
+* Compromissos financeiros futuros.
 
 Os dados deverão ser apresentados por meio de:
 
@@ -470,7 +727,7 @@ Os dados deverão ser apresentados por meio de:
 
 ---
 
-# 25. Dashboard Familiar
+# 32. Dashboard Familiar
 
 A família possuirá uma visão financeira agregada.
 
@@ -482,7 +739,8 @@ O dashboard familiar poderá apresentar:
 * Evolução financeira;
 * Gastos por categoria;
 * Comparação entre entradas e despesas;
-* Capacidade de poupança/investimento da família.
+* Capacidade de poupança/investimento da família;
+* Compromissos financeiros futuros agregados.
 
 Membros comuns não deverão visualizar os valores individuais dos outros membros.
 
@@ -490,19 +748,153 @@ O chefe poderá visualizar informações financeiras individuais dos membros da 
 
 ---
 
-# 26. Saúde da Família
+# 33. Histórico Financeiro
 
-O Clareza possuirá um indicador chamado **Saúde da Família**.
+O Clareza deverá permitir a visualização do comportamento financeiro ao longo do tempo.
 
-Esse indicador não será apenas um status fixo como:
+Os gráficos poderão apresentar informações referentes a:
 
-* Saudável;
-* Ruim;
-* Crítica.
+* Meses anteriores;
+* Mês atual;
+* Próximo mês;
+* Outros períodos futuros quando aplicável.
 
-O objetivo é criar uma interpretação mais dinâmica da situação financeira da família.
+Os meses anteriores deverão utilizar os dados financeiros efetivamente registrados.
 
-Exemplos de estados possíveis:
+O histórico poderá apresentar:
+
+* Total de entradas;
+* Total de despesas;
+* Total de investimentos;
+* Gastos por categoria;
+* Evolução do saldo;
+* Evolução da capacidade de poupança.
+
+---
+
+# 34. Projeção de Gastos
+
+O Clareza deverá permitir uma projeção de gastos futuros baseada em compromissos financeiros já conhecidos pelo sistema.
+
+Na primeira versão, essa projeção será determinística.
+
+Isso significa que o sistema não tentará adivinhar gastos que ainda não foram registrados.
+
+A projeção deverá considerar principalmente:
+
+* Parcelas ativas;
+* Despesas recorrentes ativas;
+* Outros compromissos financeiros já registrados.
+
+Exemplo:
+
+```text
+Próximo mês
+
+Aluguel              R$ 1.500
+Internet              R$ 120
+Academia              R$ 100
+Parcela Notebook      R$ 300
+Parcela Celular       R$ 150
+──────────────────────────────
+Comprometido        R$ 2.170
+```
+
+O sistema deverá apresentar esse valor como:
+
+**Gastos já confirmados ou comprometidos.**
+
+Esse valor não deverá ser apresentado como uma previsão exata do gasto total do usuário.
+
+---
+
+# 35. Diferença entre Gasto Confirmado e Previsão
+
+O Clareza deverá diferenciar dois conceitos.
+
+### Gasto confirmado/projetado
+
+Valor que o sistema consegue determinar com base em informações já registradas.
+
+Exemplos:
+
+* Parcela ativa;
+* Aluguel recorrente;
+* Assinatura recorrente.
+
+### Previsão de gasto
+
+Estimativa de quanto o usuário provavelmente gastará, considerando também comportamentos que ainda não foram registrados.
+
+Essa segunda modalidade será implementada futuramente com recursos de análise avançada e inteligência artificial.
+
+---
+
+# 36. Previsão de Gastos com Inteligência Artificial
+
+Futuramente, o Clareza poderá utilizar inteligência artificial para estimar o gasto total futuro do usuário ou da família.
+
+A previsão poderá considerar:
+
+* Histórico financeiro;
+* Comportamento de consumo;
+* Gastos recorrentes;
+* Parcelamentos;
+* Categorias;
+* Evolução dos gastos;
+* Sazonalidade;
+* Outros padrões identificados nos dados.
+
+Exemplo:
+
+```text
+Próximo mês
+
+Comprometido:
+R$ 2.170
+
+Previsão de gasto total:
+R$ 3.450
+```
+
+Nesse exemplo:
+
+**R$ 2.170** representa valores já conhecidos.
+
+**R$ 3.450** representa uma estimativa.
+
+A previsão por inteligência artificial não deverá substituir os dados financeiros reais.
+
+---
+
+# 37. Saúde Financeira do Usuário
+
+Todo usuário deverá possuir uma análise própria de Saúde Financeira.
+
+Essa funcionalidade deverá funcionar mesmo que o usuário não pertença a nenhuma família.
+
+A Saúde Financeira do Usuário deverá analisar o comportamento financeiro individual.
+
+Entre os fatores que poderão ser considerados estão:
+
+* Entradas;
+* Despesas;
+* Investimentos;
+* Capacidade de poupança;
+* Evolução das despesas;
+* Relação entre renda e gastos;
+* Gastos recorrentes;
+* Parcelamentos;
+* Compromissos futuros;
+* Evolução ao longo dos meses.
+
+---
+
+# 38. Estados da Saúde Financeira
+
+A Saúde Financeira poderá utilizar estados interpretativos e dinâmicos.
+
+Exemplos:
 
 * Saúde de ferro;
 * Saudável;
@@ -511,65 +903,113 @@ Exemplos de estados possíveis:
 * Sentindo sintomas ruins;
 * Enxaqueca pesada.
 
-Os nomes e regras exatas desses estados poderão ser modificados durante o desenvolvimento.
+Os nomes poderão ser ajustados durante o desenvolvimento.
+
+O objetivo é evitar uma classificação excessivamente simples baseada apenas em cores ou em um único valor financeiro.
 
 ---
 
-# 27. Análise da Saúde da Família
+# 39. Análise da Saúde do Usuário
 
-A Saúde da Família deverá considerar o comportamento financeiro ao longo do tempo.
-
-Entre os indicadores que poderão ser analisados estão:
-
-* Relação entre entradas e despesas;
-* Crescimento das despesas;
-* Crescimento das entradas;
-* Capacidade de poupança;
-* Evolução dos investimentos;
-* Variação dos gastos;
-* Gastos por categoria;
-* Tendências financeiras dos últimos meses.
-
-A análise deverá considerar tendências e não apenas uma fotografia de um único mês.
+A Saúde Financeira deverá considerar tendências.
 
 Exemplo:
 
-Se durante vários meses as despesas aumentarem enquanto a capacidade de poupança diminuir, a Saúde da Família poderá apresentar uma interpretação mais negativa.
+```text
+Agosto
+Despesas: R$ 2.500
 
-Caso a família esteja reduzindo despesas e aumentando sua capacidade de poupança ao longo dos meses, a interpretação poderá melhorar.
+Setembro
+Despesas: R$ 3.000
+
+Outubro
+Despesas: R$ 3.800
+```
+
+Caso a renda permaneça estável e a capacidade de poupança diminua, o sistema poderá identificar uma tendência negativa.
+
+A análise deverá considerar mais do que apenas o saldo atual.
 
 ---
 
-# 28. Explicação da Saúde
+# 40. Explicação da Saúde do Usuário
 
-A Saúde da Família não deverá apresentar somente um estado.
+A Saúde Financeira deverá, sempre que possível, apresentar os motivos que contribuíram para o estado atual.
 
-Sempre que possível, o sistema deverá informar os motivos que contribuíram para aquele estado.
-
-Exemplo conceitual:
+Exemplo:
 
 ```text
-Saúde da Família:
+Saúde Financeira:
 Sentindo uma dor de cabeça
 
 Motivos:
+
 - Despesas aumentaram nos últimos 3 meses;
 - Capacidade de poupança diminuiu;
-- Entradas permaneceram estáveis.
-
-Período analisado:
-Últimos 3 meses
+- Gastos recorrentes representam uma parcela significativa da renda;
+- Existem parcelas ativas para os próximos meses.
 ```
 
-Isso permitirá que o usuário compreenda por que determinado estado foi apresentado.
+Isso permitirá que o usuário compreenda sua situação financeira.
 
 ---
 
-# 29. Histórico da Saúde
+# 41. Saúde Financeira da Família
 
-Futuramente, o sistema poderá armazenar o histórico das análises da Saúde da Família.
+O Clareza também possuirá uma Saúde Financeira da Família.
 
-Isso permitirá identificar a evolução da situação financeira.
+Essa análise deverá considerar os dados financeiros agregados da família.
+
+Entre os fatores que poderão ser considerados:
+
+* Entradas da família;
+* Despesas da família;
+* Investimentos;
+* Capacidade de poupança;
+* Evolução das despesas;
+* Evolução das entradas;
+* Gastos recorrentes;
+* Parcelamentos;
+* Compromissos futuros;
+* Tendências financeiras.
+
+---
+
+# 42. Privacidade da Saúde da Família
+
+Todos os membros da família poderão visualizar a Saúde da Família.
+
+Entretanto, a Saúde da Família não deverá revelar dados financeiros individuais dos membros para usuários que não possuem essa permissão.
+
+Por exemplo:
+
+```text
+Saúde da Família:
+Se recuperando
+
+Motivos:
+- Despesas familiares diminuíram;
+- Capacidade de poupança aumentou;
+- Investimentos aumentaram.
+```
+
+Um membro comum não deverá receber automaticamente:
+
+```text
+João gastou R$ 2.300
+Maria gastou R$ 1.800
+Felipe gastou R$ 900
+```
+
+A menos que possua permissão para visualizar esses dados.
+
+---
+
+# 43. Histórico da Saúde
+
+Futuramente, o sistema poderá armazenar o histórico das análises de Saúde Financeira.
+
+Isso poderá permitir visualizar a evolução do usuário ou da família.
 
 Exemplo:
 
@@ -590,11 +1030,11 @@ Maio:
 Saúde de ferro
 ```
 
-Essa funcionalidade poderá ser implementada posteriormente caso não seja necessária para a primeira versão.
+Essa funcionalidade poderá ser implementada posteriormente.
 
 ---
 
-# 30. API REST
+# 44. API REST
 
 O backend deverá disponibilizar uma API REST para comunicação com o frontend.
 
@@ -623,11 +1063,15 @@ A API será responsável por:
 * Manipulação das movimentações;
 * Controle das famílias;
 * Controle das permissões;
+* Controle das compras;
+* Controle dos parcelamentos;
+* Controle das recorrências;
+* Cálculos financeiros;
 * Comunicação com o banco de dados.
 
 ---
 
-# 31. Autenticação
+# 45. Autenticação
 
 O sistema deverá possuir autenticação de usuários.
 
@@ -641,7 +1085,7 @@ As senhas:
 
 ---
 
-# 32. Autorização
+# 46. Autorização
 
 O sistema deverá diferenciar autenticação de autorização.
 
@@ -662,7 +1106,7 @@ Exemplos:
 
 ---
 
-# 33. Requisitos Funcionais
+# 47. Requisitos Funcionais
 
 ### RF01 — Cadastro de usuário
 
@@ -740,53 +1184,89 @@ O sistema deverá permitir o registro de despesas.
 
 O sistema deverá permitir o registro de investimentos.
 
-### RF20 — Listar movimentações
+### RF20 — Registrar compra à vista
+
+O sistema deverá permitir o registro de compras realizadas à vista.
+
+### RF21 — Registrar compra no cartão
+
+O sistema deverá permitir o registro de compras realizadas utilizando cartão.
+
+### RF22 — Registrar compra parcelada
+
+O sistema deverá permitir o registro de compras parceladas.
+
+### RF23 — Registrar despesa recorrente
+
+O sistema deverá permitir o cadastro de despesas recorrentes.
+
+### RF24 — Controlar parcelas
+
+O sistema deverá identificar parcelas pagas e parcelas ainda ativas.
+
+### RF25 — Listar movimentações
 
 O sistema deverá permitir a visualização das movimentações do usuário.
 
-### RF21 — Editar movimentação
+### RF26 — Editar movimentação
 
 O sistema deverá permitir a edição de movimentações do usuário.
 
-### RF22 — Excluir movimentação
+### RF27 — Excluir movimentação
 
 O sistema deverá permitir a exclusão de movimentações do usuário.
 
-### RF23 — Categorias
+### RF28 — Categorias
 
 O sistema deverá disponibilizar categorias predefinidas.
 
-### RF24 — Categorias personalizadas
+### RF29 — Categorias personalizadas
 
 O sistema deverá permitir a criação de categorias personalizadas.
 
-### RF25 — Dashboard individual
+### RF30 — Dashboard individual
 
 O sistema deverá apresentar informações financeiras individuais do usuário.
 
-### RF26 — Dashboard familiar
+### RF31 — Dashboard familiar
 
 O sistema deverá apresentar informações financeiras agregadas da família.
 
-### RF27 — Saúde da Família
+### RF32 — Histórico financeiro
 
-O sistema deverá calcular e apresentar a Saúde da Família.
+O sistema deverá permitir a visualização da evolução financeira em diferentes períodos.
 
-### RF28 — Análise financeira
+### RF33 — Projeção financeira
+
+O sistema deverá apresentar uma projeção dos gastos futuros com base em parcelas ativas, despesas recorrentes e outros compromissos financeiros conhecidos.
+
+### RF34 — Saúde Financeira do Usuário
+
+O sistema deverá calcular e apresentar a Saúde Financeira individual do usuário.
+
+### RF35 — Saúde Financeira da Família
+
+O sistema deverá calcular e apresentar a Saúde Financeira da família.
+
+### RF36 — Análise financeira
 
 O sistema deverá analisar indicadores financeiros ao longo do tempo.
 
-### RF29 — Controle de acesso
+### RF37 — Controle de acesso
 
 O sistema deverá impedir o acesso a recursos não autorizados.
 
-### RF30 — Dados financeiros do chefe
+### RF38 — Dados financeiros do chefe
 
 O sistema deverá permitir que o chefe visualize os dados financeiros individuais dos membros da própria família.
 
+### RF39 — Previsão inteligente
+
+Futuramente, o sistema poderá utilizar inteligência artificial para estimar o gasto total futuro com base no histórico e comportamento financeiro.
+
 ---
 
-# 34. Requisitos Não Funcionais
+# 48. Requisitos Não Funcionais
 
 ### RNF01 — Segurança
 
@@ -826,11 +1306,19 @@ O código deverá ser organizado de forma a facilitar manutenção e evolução.
 
 ### RNF10 — Integridade
 
-O sistema deverá impedir inconsistências relacionadas à participação dos usuários nas famílias e às permissões de acesso.
+O sistema deverá impedir inconsistências relacionadas à participação dos usuários nas famílias, movimentações financeiras e permissões de acesso.
+
+### RNF11 — Consistência financeira
+
+Os cálculos financeiros deverão considerar corretamente movimentações, parcelas, recorrências e compromissos futuros.
+
+### RNF12 — Privacidade
+
+Informações financeiras individuais deverão ser disponibilizadas somente para usuários autorizados.
 
 ---
 
-# 35. Fora do Escopo da Primeira Versão
+# 49. Fora do Escopo da Primeira Versão
 
 Os seguintes recursos não farão parte da primeira versão:
 
@@ -838,24 +1326,26 @@ Os seguintes recursos não farão parte da primeira versão:
 * Integração automática com bancos;
 * Importação automática de extratos;
 * Inteligência Artificial;
+* Previsão inteligente de gastos;
 * Integração com corretoras;
 * Rentabilidade automática de investimentos;
+* Compra ou venda automática de ativos;
 * PIX;
 * Pagamentos;
-* Cartão de crédito integrado;
-* Aplicativo mobile nativo.
-
-Esses recursos poderão ser considerados em versões futuras.
+* Cartão de crédito integrado ao sistema bancário;
+* Aplicativo mobile nativo;
+* Análises financeiras avançadas baseadas em IA.
 
 ---
 
-# 36. Possíveis Evoluções
+# 50. Possíveis Evoluções
 
 Após a conclusão da primeira versão, poderão ser adicionados:
 
 * Open Banking;
 * Integração com bancos;
 * Inteligência Artificial;
+* Previsão de gastos;
 * Análise financeira avançada;
 * Recomendações personalizadas;
 * Alertas financeiros;
@@ -863,13 +1353,16 @@ Após a conclusão da primeira versão, poderão ser adicionados:
 * Orçamentos;
 * Investimentos integrados;
 * Aplicativo mobile;
-* Histórico avançado da Saúde da Família;
+* Histórico avançado da Saúde Financeira;
 * Mais níveis de permissão;
-* Notificações.
+* Notificações;
+* Controle avançado de faturas;
+* Integração com cartões;
+* Mais tipos de recorrência.
 
 ---
 
-# 37. Princípio de Desenvolvimento
+# 51. Princípio de Desenvolvimento
 
 O Clareza será desenvolvido inicialmente como um projeto de estudo e portfólio.
 
@@ -888,9 +1381,13 @@ A prioridade será construir uma aplicação funcional utilizando conceitos reai
 
 A implementação deverá evitar complexidade desnecessária, mas manter uma arquitetura que permita evolução futura.
 
+O projeto deverá priorizar primeiro soluções determinísticas e baseadas em dados concretos.
+
+Recursos de inteligência artificial deverão ser adicionados somente posteriormente, quando houver dados e estrutura suficientes para justificar sua utilização.
+
 ---
 
-# 38. Tecnologias
+# 52. Tecnologias
 
 ## Frontend
 
@@ -916,7 +1413,7 @@ A implementação deverá evitar complexidade desnecessária, mas manter uma arq
 
 ---
 
-# 39. Arquitetura Inicial
+# 53. Arquitetura Inicial
 
 ```text
                     ┌─────────────────────┐
@@ -943,7 +1440,35 @@ A implementação deverá evitar complexidade desnecessária, mas manter uma arq
 
 ---
 
-# 40. Status do Projeto
+# 54. Conceito Geral da Análise Financeira
+
+O Clareza deverá separar os dados financeiros reais das análises derivadas desses dados.
+
+O fluxo conceitual será:
+
+```text
+Dados financeiros
+       ↓
+Movimentações
+       ↓
+Parcelas e recorrências
+       ↓
+Indicadores financeiros
+       ↓
+Análise
+       ↓
+Saúde Financeira
+       ↓
+Projeções
+```
+
+A primeira versão deverá utilizar regras e cálculos determinísticos.
+
+Futuramente, recursos de inteligência artificial poderão utilizar os mesmos dados para gerar previsões e análises mais avançadas.
+
+---
+
+# 55. Status do Projeto
 
 O projeto encontra-se na fase de **levantamento e definição de requisitos**.
 
@@ -952,13 +1477,20 @@ Próximas etapas:
 1. Revisar requisitos;
 2. Definir regras de negócio;
 3. Identificar entidades;
-4. Definir relacionamentos;
-5. Criar modelo entidade-relacionamento;
-6. Criar banco de dados MySQL;
-7. Criar backend;
-8. Criar API REST;
-9. Implementar autenticação e autorização;
-10. Criar frontend;
-11. Implementar dashboards;
-12. Implementar Saúde da Família;
-13. Testar e documentar o sistema.
+4. Definir atributos;
+5. Definir relacionamentos;
+6. Criar modelo entidade-relacionamento;
+7. Criar banco de dados MySQL;
+8. Criar backend;
+9. Criar API REST;
+10. Implementar autenticação;
+11. Implementar autorização;
+12. Implementar movimentações;
+13. Implementar compras e parcelamentos;
+14. Implementar despesas recorrentes;
+15. Implementar dashboards;
+16. Implementar projeções financeiras;
+17. Implementar Saúde Financeira do Usuário;
+18. Implementar Saúde Financeira da Família;
+19. Testar e documentar o sistema;
+20. Posteriormente estudar a implementação de previsão com inteligência artificial.
